@@ -1,49 +1,49 @@
-class Facade:
+class Facade(object):
 
 	#cria inimigo em determinado ponto da tela
-	def criarInimigo(posX, posY):
+	def criarInimigo(self,posX, posY):
 		return
 
 	#move todos inimigos aleatoriamente na tela
-	def moverInimigos():
+	def moverInimigos(self):
 		return
 
 	#adiciona nome no ranking 
-	def adicionarNomeNoRanking(nome):
+	def adicionarNomeNoRanking(self,nome):
 		return
 
 	#libera mais uma arma para jogador(modificado nome no caso de uso)
-	def liberarArma(tipoArma):
+	def liberarArma(self,tipoArma):
 		return
 
 	#muda arma que o jogador está usando
-	def mudarArma(arma):
+	def mudarArma(self,arma):
 		return
 
 	#retorna string com o ranking (nomes de jogadores separados por *
-	def verRanking():
+	def verRanking(self):
 		return
 
 	#nova partida
-	def iniciarJogo():
+	def iniciarJogo(self):
 		return
 
 	#muda posição do jogador
-	def moverJogador(posX, posY):
+	def moverJogador(self,posX, posY):
 		return
 
 	#jogador atira no inimigo
-	def atacarInimigo(posX, posY):
+	def atacarInimigo(self,posX, posY):
 		return
 	
 	#retorna String com as instruções do jogo
-	def verInstrucoes():
+	def verInstrucoes(self):
 		return
 
 	#encerra partida
-	def sairDoJogo():
+	def sairDoJogo(self):
 		return
 
 	#inimigo ataca jogador
-	def atacarJogador(posX, posY):
+	def atacarJogador(self,posX, posY):
 		return
