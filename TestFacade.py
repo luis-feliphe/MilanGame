@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import unittest
 from Facade import *
 
@@ -67,13 +68,20 @@ class TestFacade(unittest.TestCase):
 		except ExcecaoJogo as e : 
 			self.assertEqual(e.message, "Partida não iniciada")
 	
-	def testeMoverNaveForaDaTela(self):
+	def testeMoverNaveForaDaTelaValoresPositivos(self):
 		self.fac = Facade()
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
 		self.fac.moverNave(500,500)
 		self.assertEqual((500,500),self.fac.getPosNave())
 
+	def testeMoverNaveForaDaTelaValoresNegativos(self):
+		self.fac = Facade()
+		self.fac.iniciarJogo()
+		self.fac.iniciarPartida()
+		self.fac.moverNave(-500,-500)
+		self.assertEqual((0,0),self.fac.getPosNave())
+			
 	def testeAtacarInimigo(self):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
@@ -169,6 +177,41 @@ class TestFacade(unittest.TestCase):
 		self.fac.adicionarNomeNoRanking((10,"Luis"))
 		#tem que retornar apenas 10, 3 serão descartados
 		self.assertEqual(10,len(self.fac.gerenciador.ranking) )
-		
+
+	def testeAdicionarNoRankingNomeEPontuacaoRepetidas(self):
+		self.fac.iniciarJogo()
+		self.fac.iniciarPartida()
+		self.fac.adicionarNomeNoRanking((10,"Luis"))
+		self.fac.adicionarNomeNoRanking((20,"Luis"))
+		self.fac.adicionarNomeNoRanking((30,"Luis"))
+		self.fac.adicionarNomeNoRanking((40,"Luis"))
+		#adicionando os mesmos elementos denovo
+		self.fac.adicionarNomeNoRanking((10,"Luis"))
+		self.fac.adicionarNomeNoRanking((20,"Luis"))
+		self.fac.adicionarNomeNoRanking((30,"Luis"))
+		self.fac.adicionarNomeNoRanking((40,"Luis"))
+		self.assertEqual(4, len(self.fac.gerenciador.ranking) )
+	
+	#testes referetes a sair do jogo
+	def testeSairDoJogo(self):
+		self.fac.iniciarJogo()
+		self.fac.sairDoJogo()
+		self.assertEqual(False, self.fac.gerenciador.jogoIniciado)
+
+	def testeSairDoJogoAntesDoJogoIniciar(self):
+		try: 
+			unittest.TestCase.assertRaises(ExcecaoJogo, self.fac.sairDoJogo())
+		except ExcecaoJogo as e : 
+			self.assertEqual(e.message, "Jogo não iniciado")
+
+	def testeSairDoJogoDuasVezesSeguidas(self):
+		self.fac.iniciarJogo()
+		self.fac.sairDoJogo()
+		try: 
+			unittest.TestCase.assertRaises(ExcecaoJogo, self.fac.sairDoJogo())
+		except ExcecaoJogo as e : 
+			self.assertEqual(e.message, "Jogo não iniciado")
+
+	
 			
 unittest.main()

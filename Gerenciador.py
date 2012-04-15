@@ -53,9 +53,18 @@ class Gerenciador(object):
 	def adicionarNoRanking(self, pontuacaoENome):
 		if (self.jogoIniciado == False):
 			raise ExcecaoJogo("Jogo não iniciado")
-		self.ranking.append(pontuacaoENome)
-		self.ranking.sort()
-		self.ranking.reverse()
-		if (len(self.ranking )> 10):
-			self.ranking.remove(self.ranking[10])
+		if (not(pontuacaoENome in self.ranking)):
+			self.ranking.append(pontuacaoENome)
+			self.ranking.sort()
+			self.ranking.reverse()
+			if (len(self.ranking )> 10):
+				self.ranking.remove(self.ranking[10])
 	
+	def sairDoJogo(self):
+		if (self.jogoIniciado == False):
+			raise ExcecaoJogo("Jogo não iniciado")
+		self.jogoIniciado = False
+		self.partidaIniciada = False
+		self.nave = None
+		self.listaTiros = []
+		self.ranking = []

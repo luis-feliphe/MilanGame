@@ -64,6 +64,6 @@ class Facade(object):
 		
 	#encerra jogo
 	def sairDoJogo(self):
-		return
+		self.gerenciador.sairDoJogo()
 
 
