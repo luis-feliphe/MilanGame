@@ -1,0 +1,2 @@
+class ExcecaoJogo(BaseException):
+	pass
