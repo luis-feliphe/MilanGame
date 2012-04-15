@@ -1,49 +1,69 @@
+# -*- coding: utf-8 -*-
+from Gerenciador import *
+
 class Facade(object):
+	#construtor
+	def __init__ (self):
+		self.gerenciador = Gerenciador()
+	
+	#retorna tela com instrucoes 
+	def verInstrucoes(self):
+		return "Use as setas para mover a nave e ctrl para atirar"
 
-	#cria inimigo em determinado ponto da tela
-	def criarInimigo(self,posX, posY):
-		return
-
-	#move todos inimigos aleatoriamente na tela
-	def moverInimigos(self):
-		return
-
-	#adiciona nome no ranking 
-	def adicionarNomeNoRanking(self,nome):
-		return
-
-	#libera mais uma arma para jogador(modificado nome no caso de uso)
-	def liberarArma(self,tipoArma):
-		return
-
-	#muda arma que o jogador está usando
-	def mudarArma(self,arma):
-		return
-
-	#retorna string com o ranking (nomes de jogadores separados por *
+	#retorna tela com ranking 
 	def verRanking(self):
-		return
+		return  
 
-	#nova partida
+	#retorna tela com creditos
+	def verCreditos(self):
+		return 
+
+	#inicia jogo 
 	def iniciarJogo(self):
-		return
-
-	#muda posição do jogador
-	def moverJogador(self,posX, posY):
-		return
-
-	#jogador atira no inimigo
-	def atacarInimigo(self,posX, posY):
+		self.gerenciador.iniciarJogo()
 		return
 	
-	#retorna String com as instruções do jogo
-	def verInstrucoes(self):
+	def jogoComecou(self):
+		return self.gerenciador.jogoComecou()
+
+	#iniciar partida
+	def iniciarPartida(self):
+		return self.gerenciador.iniciarPartida()
+
+	#move nave do jogador 
+	def moverNave(self,deslocamentoX, deslocamentoY):
+		self.gerenciador.moverNave(deslocamentoX, deslocamentoY)
+
+	#mudaArmaSePassarPorCimaDaArma
+	def mudarArma(self, tipoDeArma):
 		return
 
+
+	#jogador atira no inimigo
+	def atacarInimigo(self):
+		self.gerenciador.atacarInimigo()
+	
+	#pegarPosição usuario
+	def getPosNave(self):
+		return self.gerenciador.getPosNave()
+	
+	def getTamanhoTela(self):
+		return self.gerenciador.getTamanhoTela()
+		
+	#se tiver Vidas volta ao jogo com uma vida a menos senão , tela game over
+	def serDestruido(self):
+		return
+		
 	#encerra partida
+	def terminaPartida(self):
+		return
+
+	#adiciona nome no ranking
+	def adicionarNomeNoRanking(self, pontuacaoENome):
+		self.gerenciador.adicionarNoRanking(pontuacaoENome)
+		
+	#encerra jogo
 	def sairDoJogo(self):
 		return
 
-	#inimigo ataca jogador
-	def atacarJogador(self,posX, posY):
-		return
+
