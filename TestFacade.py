@@ -6,7 +6,8 @@ class TestFacade(unittest.TestCase):
 
 	def setUp(self):
 		self.fac = Facade()
-
+	
+	#testes referentes a partidas e ao jogo
 	def testeIniciarJogo(self):
 		self.fac.iniciarJogo()
 		self.assertEqual(True,self.fac.jogoComecou())
@@ -37,6 +38,7 @@ class TestFacade(unittest.TestCase):
 		except ExcecaoJogo as e : 
 			self.assertEqual(e.message, "Jogo não iniciado")
 
+	#testes referentes a Nave e sua movimentação
 	def testecriarNaveAoIniciarPartida(self):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
@@ -72,7 +74,6 @@ class TestFacade(unittest.TestCase):
 		self.fac.moverNave(500,500)
 		self.assertEqual((500,500),self.fac.getPosNave())
 
-			
 	def testeAtacarInimigo(self):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
@@ -93,6 +94,7 @@ class TestFacade(unittest.TestCase):
 		except ExcecaoJogo as e : 
 			self.assertEqual(e.message, "Partida não iniciada")
 
+	#testes referentes ao Ranking
 	def testeAdicionarNomeAoRanking(self):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
@@ -106,6 +108,23 @@ class TestFacade(unittest.TestCase):
 		except ExcecaoJogo as e : 
 			self.assertEqual(e.message, "Jogo não iniciado")
 	
+	def testeAdicionarNoRankingSemPontuacaoNecessaria(self):
+		self.fac.iniciarJogo()
+		self.fac.iniciarPartida()
+		self.fac.adicionarNomeNoRanking((200,"Luis"))
+		self.fac.adicionarNomeNoRanking(( 40,"Luis"))
+		self.fac.adicionarNomeNoRanking((500,"Luis"))
+		self.fac.adicionarNomeNoRanking((20,"Luis"))
+		self.fac.adicionarNomeNoRanking(( 30,"Luis"))
+		self.fac.adicionarNomeNoRanking((330,"Luis"))
+		self.fac.adicionarNomeNoRanking((550,"Luis"))
+		self.fac.adicionarNomeNoRanking((220,"Luis"))
+		self.fac.adicionarNomeNoRanking(( 120,"Luis"))
+		self.fac.adicionarNomeNoRanking((10,"Luis"))
+		self.fac.adicionarNomeNoRanking((1,"Luis"))#Não deve adicionar este ao ranking
+		
+		self.assertEqual(False, ((1,"Luis") in self.fac.gerenciador.ranking) )
+
 	def testeOrdenarRanking(self):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
@@ -131,7 +150,6 @@ class TestFacade(unittest.TestCase):
 		self.assertEqual((500,"Luis"), self.fac.gerenciador.ranking[1])
 		self.assertEqual((550,"Luis"), self.fac.gerenciador.ranking[0])
 
-		
 	def testeTamanhoMaximoDoRankingTemQueSerDez(self):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
@@ -149,7 +167,8 @@ class TestFacade(unittest.TestCase):
 		self.fac.adicionarNomeNoRanking((290,"Luis"))
 		self.fac.adicionarNomeNoRanking(( 450,"Luis"))
 		self.fac.adicionarNomeNoRanking((10,"Luis"))
-		#tem que remover os 3 ultimos
+		#tem que retornar apenas 10, 3 serão descartados
 		self.assertEqual(10,len(self.fac.gerenciador.ranking) )
+		
 			
 unittest.main()
