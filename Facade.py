@@ -29,6 +29,9 @@ class Facade(object):
 	#iniciar partida
 	def iniciarPartida(self):
 		return self.gerenciador.iniciarPartida()
+		
+	def partidaFoiIniciada(self):
+		return self.gerenciador.partidaFoiIniciada()
 
 	#move nave do jogador 
 	def moverNave(self,deslocamentoX, deslocamentoY):
@@ -53,10 +56,7 @@ class Facade(object):
 	#se tiver Vidas volta ao jogo com uma vida a menos senão , tela game over
 	def serDestruido(self):
 		return
-		
-	#encerra partida
-	def terminaPartida(self):
-		return
+	
 
 	#adiciona nome no ranking
 	def adicionarNomeNoRanking(self, pontuacaoENome):
@@ -65,5 +65,22 @@ class Facade(object):
 	#encerra jogo
 	def sairDoJogo(self):
 		self.gerenciador.sairDoJogo()
-
-
+	
+	def sairDaPartida(self):
+		self.gerenciador.sairDaPartida()
+	
+	def ganharVida(self):
+		self.gerenciador.ganharVida()
+	
+	def perderVida(self):
+		self.gerenciador.perderVida()
+	
+	# nave inimiga
+	def criarNaveInimiga(self):
+		self.gerenciador.criarNaveInimiga()
+		
+	def destruirNaveInimiga(self, nave):
+		self.gerenciador.destruirNaveInimiga(nave)
+		
+	def calcularPontuacao(self):
+		return self.gerenciador.calcularPontuacao()

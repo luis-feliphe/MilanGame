@@ -1,4 +1,3 @@
 from ObjetoPintavel import ObjetoPintavel
-class Tiro(ObjetoPintavel):
+class Inimigo(ObjetoPintavel):
 	pass
-	
