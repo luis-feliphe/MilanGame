@@ -84,3 +84,15 @@ class Facade(object):
 		
 	def calcularPontuacao(self):
 		return self.gerenciador.calcularPontuacao()
+		
+	def getListaNaves(self):
+		return self.gerenciador.getListaNaves()
+	
+	def getPontuacao (self):
+		return self.gerenciador.getPontuacao()
+	
+	def getListaTiros(self):
+		return self.gerenciador.getListaTiros()
+	
+	def getVida(self):
+		return self.gerenciador.getVida()

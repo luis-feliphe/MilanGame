@@ -87,7 +87,7 @@ class TestFacade(unittest.TestCase):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
 		self.fac.atacarInimigo()
-		lista = self.fac.gerenciador.listaTiros
+		lista = self.fac.getListaTiros()
 		self.assertEqual(self.fac.getPosNave(),lista[0].getPos() )
 	
 	def testeAtacarInimigoMaisDeUmaVezEmPosicoesDiferentes(self):
@@ -98,7 +98,7 @@ class TestFacade(unittest.TestCase):
 		self.fac.moverNave(25,10)
 		pos2 = self.fac.getPosNave()
 		self.fac.atacarInimigo()
-		lista = self.fac.gerenciador.listaTiros
+		lista = self.fac.getListaTiros()
 		self.assertEqual(pos1,lista[0].getPos() )
 		self.assertEqual(pos2,lista[1].getPos() )
 	
@@ -121,7 +121,7 @@ class TestFacade(unittest.TestCase):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
 		self.fac.sairDaPartida()
-		self.assertEqual(False, self.fac.gerenciador.partidaIniciada)
+		self.assertEqual(False, self.fac.partidaFoiIniciada())
 		
 	def testeSairPartidaAntesDoJogoIniciar(self):
 		try: 
@@ -149,7 +149,7 @@ class TestFacade(unittest.TestCase):
 	def testeSairDoJogo(self):
 		self.fac.iniciarJogo()
 		self.fac.sairDoJogo()
-		self.assertEqual(False, self.fac.gerenciador.jogoIniciado)
+		self.assertEqual(False, self.fac.jogoComecou())
 
 	def testeSairDoJogoAntesDoJogoIniciar(self):
 		try: 
@@ -180,7 +180,7 @@ class TestFacade(unittest.TestCase):
 		self.fac.iniciarPartida()
 		self.fac.ganharVida()
 		#a nave inicia com 3 vidas
-		self.assertEqual(4 , self.fac.gerenciador.nave.vida)
+		self.assertEqual(4 , self.fac.getVida())
 			
 	def testeGanharVidaAntesDoJogoIniciar(self):
 		try: 
@@ -194,25 +194,12 @@ class TestFacade(unittest.TestCase):
 			unittest.TestCase.assertRaises(ExcecaoJogo, self.fac.ganharVida())
 		except ExcecaoJogo as e : 
 			self.assertEqual(e.message, "Partida não iniciada")
-	
-	def testeGanharVidaComMaximoDeVidasAumentaPontuacao(self):
-		self.fac.iniciarJogo()
-		self.fac.iniciarPartida()
-		self.fac.ganharVida()
-		self.fac.ganharVida()
-		self.fac.ganharVida()
-		self.fac.ganharVida()
-		self.fac.ganharVida()
-		self.fac.ganharVida()
-		self.assertEqual(8, self.fac.gerenciador.nave.vida)
-		self.assertEqual(50 , self.fac.gerenciador.nave.pontuacao)
-	
 			
 	def testePerderVida(self):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
 		self.fac.perderVida()
-		self.assertEqual(2,self.fac.gerenciador.nave.vida)
+		self.assertEqual(2,self.fac.getVida())
 
 	def testePerderVidaAntesDoJogoIniciar(self):
 		try: 
@@ -233,15 +220,18 @@ class TestFacade(unittest.TestCase):
 		self.fac.perderVida()
 		self.fac.perderVida()
 		self.fac.perderVida()
-		self.assertEqual(False, self.fac.gerenciador.partidaIniciada)
+		self.assertEqual(False, self.fac.partidaFoiIniciada())
 	
 	#navesInimigas
 	def testeCriarNaveInimiga(self):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
+		self.assertEqual(0, len(self.fac.getListaNaves()))
 		self.fac.criarNaveInimiga()
-		self.assertEqual(1, len(self.fac.gerenciador.listaNaves))
-	
+		self.assertEqual(1, len(self.fac.getListaNaves()))
+		self.fac.criarNaveInimiga()
+		self.assertEqual(2, len(self.fac.getListaNaves()))
+		
 	def testeCriarNaveAntesDoJogoComecar(self):
 		try: 
 			unittest.TestCase.assertRaises(ExcecaoJogo, self.fac.criarNaveInimiga())
@@ -259,9 +249,9 @@ class TestFacade(unittest.TestCase):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
 		self.fac.criarNaveInimiga()
-		listaDeNaves = self.fac.gerenciador.listaNaves
+		listaDeNaves = self.fac.getListaNaves()
 		self.fac.destruirNaveInimiga(listaDeNaves[0])
-		self.assertEqual(0, len(self.fac.gerenciador.listaNaves))
+		self.assertEqual(0, len(self.fac.getListaNaves()))
 	
 	def testeDestruirNaveInimigaAntesDeIniciarJogo(self):
 		nave = Nave(2, 3)
@@ -277,22 +267,23 @@ class TestFacade(unittest.TestCase):
 			unittest.TestCase.assertRaises(ExcecaoJogo, self.fac.destruirNaveInimiga(nave))
 		except ExcecaoJogo as e : 
 			self.assertEqual(e.message, "Partida não iniciada")
-#-------------------------------DUVIDA AQUI: não devo enviar a mensagem porque atrapalha a jogabilidade não é? -------------		
+			
 	def testeDestruirNaveInimigaSemNenhumaNave(self):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
 		nave = Nave(2,2)
-		self.assertEqual(0, len(self.fac.gerenciador.listaNaves))
+		self.assertEqual(0, len(self.fac.getListaNaves()))
 		self.fac.destruirNaveInimiga(nave)
-		self.assertEqual(0, len(self.fac.gerenciador.listaNaves))
+		self.assertEqual(0, len(self.fac.getListaNaves()))
 	
 	def testeDestruirNaveInimigaFazJogadorGanharPontos(self):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
 		self.fac.criarNaveInimiga()
-		listaDeNaves = self.fac.gerenciador.listaNaves
+		listaDeNaves = self.fac.getListaNaves()
 		self.fac.destruirNaveInimiga(listaDeNaves[0])
-		self.assertEqual(10, self.fac.gerenciador.nave.pontuacao)
+		self.assertEqual(10, self.fac.getPontuacao())
+
 	#Testes do Ranking 	
 	def testeCalcularPontuacaoRanking(self):
 		self.fac.iniciarJogo()
@@ -305,6 +296,5 @@ class TestFacade(unittest.TestCase):
 		self.fac.ganharVida()
 		self.fac.ganharVida()
 		self.assertEqual(True, self.fac.calcularPontuacao())
-		
-		
+				
 unittest.main()

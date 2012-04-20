@@ -42,3 +42,9 @@ class Nave(ObjetoPintavel):
 		return False
 	def pontuar(self):
 		self.pontuacao += 10
+	
+	def getPontuacao(self):
+		return self.pontuacao
+	
+	def getVida(self):
+		return self.vida

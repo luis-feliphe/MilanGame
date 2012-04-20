@@ -130,5 +130,15 @@ class Gerenciador(object):
 		elif (self.nave.pontuacao > self.ranking[tamanhoRaking-1]):
 			return True
 		return False
-
 		
+	def getListaNaves(self):
+		return self.listaNaves
+		
+	def getPontuacao(self):
+		return self.nave.getPontuacao()
+	
+	def getListaTiros(self):
+		return self.listaTiros
+	
+	def getVida(self):
+		return self.nave.getVida()
