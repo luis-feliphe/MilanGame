@@ -10,9 +10,9 @@ class Facade(object):
 	def verInstrucoes(self):
 		return "Use as setas para mover a nave e ctrl para atirar"
 
-	#retorna tela com ranking 
-	def verRanking(self):
-		return  
+	#retorna lista com ranking 
+	def getRanking(self):
+		return  self.gerenciador.getRanking()
 
 	#retorna tela com creditos
 	def verCreditos(self):
@@ -56,18 +56,13 @@ class Facade(object):
 	#se tiver Vidas volta ao jogo com uma vida a menos senão , tela game over
 	def serDestruido(self):
 		return
-	
-
-	#adiciona nome no ranking
-	def adicionarNomeNoRanking(self, pontuacaoENome):
-		self.gerenciador.adicionarNoRanking(pontuacaoENome)
-		
+			
 	#encerra jogo
 	def sairDoJogo(self):
 		self.gerenciador.sairDoJogo()
 	
 	def sairDaPartida(self):
-		self.gerenciador.sairDaPartida()
+		return self.gerenciador.sairDaPartida()
 	
 	def ganharVida(self):
 		self.gerenciador.ganharVida()
@@ -82,8 +77,8 @@ class Facade(object):
 	def destruirNaveInimiga(self, nave):
 		self.gerenciador.destruirNaveInimiga(nave)
 		
-	def calcularPontuacao(self):
-		return self.gerenciador.calcularPontuacao()
+#	def calcularPontuacao(self):
+#		return self.gerenciador.calcularPontuacao()
 		
 	def getListaNaves(self):
 		return self.gerenciador.getListaNaves()
@@ -96,3 +91,8 @@ class Facade(object):
 	
 	def getVida(self):
 		return self.gerenciador.getVida()
+	
+	def adicionarNomeNoRanking(self, nome):
+		return self.gerenciador.adicionarNomeNoRanking(nome)
+	def passouDeNivel(self):
+		return self.gerenciador.passouDeNivel()

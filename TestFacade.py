@@ -68,7 +68,7 @@ class TestFacade(unittest.TestCase):
 			unittest.TestCase.assertRaises(ExcecaoJogo, self.fac.moverNave(5,5))
 		except ExcecaoJogo as e : 
 			self.assertEqual(e.message, "Partida não iniciada")
-	
+
 	def testeMoverNaveForaDaTelaValoresPositivos(self):
 		self.fac = Facade()
 		self.fac.iniciarJogo()
@@ -82,14 +82,14 @@ class TestFacade(unittest.TestCase):
 		self.fac.iniciarPartida()
 		self.fac.moverNave(-500,-500)
 		self.assertEqual((0,0),self.fac.getPosNave())
-			
+
 	def testeAtacarInimigo(self):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
 		self.fac.atacarInimigo()
 		lista = self.fac.getListaTiros()
 		self.assertEqual(self.fac.getPosNave(),lista[0].getPos() )
-	
+
 	def testeAtacarInimigoMaisDeUmaVezEmPosicoesDiferentes(self):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
@@ -101,7 +101,7 @@ class TestFacade(unittest.TestCase):
 		lista = self.fac.getListaTiros()
 		self.assertEqual(pos1,lista[0].getPos() )
 		self.assertEqual(pos2,lista[1].getPos() )
-	
+
 	def testeAtacarAntesDoJogoIniciar (self):
 		try: 
 			unittest.TestCase.assertRaises(ExcecaoJogo, self.fac.atacarInimigo())
@@ -282,10 +282,55 @@ class TestFacade(unittest.TestCase):
 		self.fac.criarNaveInimiga()
 		listaDeNaves = self.fac.getListaNaves()
 		self.fac.destruirNaveInimiga(listaDeNaves[0])
-		self.assertEqual(10, self.fac.getPontuacao())
+		self.assertEqual(100, self.fac.getPontuacao())
 
 	#Testes do Ranking 	
-	def testeCalcularPontuacaoRanking(self):
+	def testeSairDoJogo(self):
+		self.fac.iniciarJogo()
+		self.fac.iniciarPartida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.assertEqual(True, self.fac.sairDaPartida())
+
+	
+		
+#========================| Testes para o 3o Estágio |========================#
+
+	
+	def testeCadastraNoRanking(self):
+		self.fac.iniciarJogo()
+		self.fac.iniciarPartida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.assertTrue(self.fac.sairDaPartida())
+		self.fac.adicionarNomeNoRanking("Hermanoteu")	
+		self.assertEqual(1, len(self.fac.getRanking()))
+		self.assertEqual(self.fac.getRanking()[0][0],"Hermanoteu")
+		self.assertEqual(self.fac.getRanking()[0][1], 150)
+	
+	def testeGetPontuacaoSemJogoIniciar(self):
+		try:
+			unittest.TestCase.assertRaises(self.fac.getPontuacao())
+		except ExcecaoJogo as e:
+			self.assertEqual(e.message, "Jogo não iniciado")	
+
+	def testeCadastrarNoRankingSemJogoInciar(self):
+		try:
+			unittest.TestCase.assertRaises(self.fac.adicionarNomeNoRanking("Micalateia"))
+		except ExcecaoJogo as e:
+			self.assertEqual(e.message, "Jogo não iniciado")
+	
+	def testeCadastraNoRankingDuasVezesComMesmaPontuacao(self):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
 		self.fac.criarNaveInimiga()
@@ -295,6 +340,63 @@ class TestFacade(unittest.TestCase):
 		self.fac.ganharVida()
 		self.fac.ganharVida()
 		self.fac.ganharVida()
-		self.assertEqual(True, self.fac.calcularPontuacao())
-				
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.assertTrue(self.fac.sairDaPartida())
+		self.fac.adicionarNomeNoRanking("Hermanoteu")	
+		
+		try:
+			unittest.TestCase.assertRaises(self.fac.adicionarNomeNoRanking("Hermanoteu"))
+		except ExcecaoJogo as e:
+			self.assertEqual(e.message, "Voce ja adcionou seu nome ao ranking")
+		self.assertEqual(1, len(self.fac.getRanking()))
+	
+
+	def testePassarDeFase700Pontos(self):
+		self.fac.iniciarJogo()
+		self.fac.iniciarPartida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.criarNaveInimiga()
+		self.fac.criarNaveInimiga()
+		self.fac.criarNaveInimiga()
+		self.fac.criarNaveInimiga()
+		self.fac.criarNaveInimiga()
+		listaDeNaves = self.fac.getListaNaves()
+		self.fac.destruirNaveInimiga(listaDeNaves[0])
+		self.fac.destruirNaveInimiga(listaDeNaves[0])
+		self.fac.destruirNaveInimiga(listaDeNaves[0])
+		self.fac.destruirNaveInimiga(listaDeNaves[0])
+		self.fac.destruirNaveInimiga(listaDeNaves[0])
+		self.fac.ganharVida()
+		self.assertTrue(self.fac.passouDeNivel())
+		self.assertEqual(700, self.fac.getPontuacao())
+		self.assertEqual(0, len(self.fac.getListaNaves()))
+	
+	#testes relacionados a camada de persistencia
+	def testeGravarRankingEmArquivo(self):
+		self.fac.iniciarJogo()
+		self.fac.iniciarPartida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.fac.ganharVida()
+		self.assertTrue(self.fac.sairDaPartida())
+		self.fac.adicionarNomeNoRanking("Hermanoteu")
+		#self.fac = Facade()
+		self.assertEqual(1, len(self.fac.getRanking()))
+		self.assertEqual(self.fac.getRanking()[0][0],"Hermanoteu")
+		self.assertEqual(self.fac.getRanking()[0][1], 150)
+		
+
 unittest.main()

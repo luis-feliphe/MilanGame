@@ -9,17 +9,30 @@ class Gerenciador(object):
 	def __init__(self):
 		self.jogoIniciado = False
 		self.partidaIniciada = False
+		self.salvouNoRanking = False
 		self.tamX = 500
 		self.tamY = 500
-		self.nave = None
-		self.listaTiros = []
-		self.listaNaves = []
-		self.ranking = []
+		self.passarDeNivel=False
+		self.nivel = 1
+		self.PASSAR_DE_NIVEL = 700
+		
+#		self.nave = None
+#		self.listaTiros = []
+#		self.listaNaves = []
+#		self.ranking = []
 		
 	def iniciarJogo (self):
 		if (self.jogoIniciado == True):
 			raise ExcecaoJogo("Um jogo ja foi iniciado")
 		self.jogoIniciado = True
+
+		self.nave = None
+		self.listaTiros = []
+		self.listaNaves = []
+		self.ranking = []
+		self.salvouNoRanking = False
+		
+
 
 	def iniciarPartida(self):
 		if (self.partidaIniciada == True):
@@ -29,6 +42,10 @@ class Gerenciador(object):
 		self.partidaIniciada = True
 		self.nave = Nave(self.tamX, self.tamY)
 
+		
+	def getRanking(self):
+		return self.ranking
+	
 	def jogoComecou(self):
 		return self.jogoIniciado
 	
@@ -52,7 +69,15 @@ class Gerenciador(object):
 			raise ExcecaoJogo("Partida não iniciada")
 		posNave = self.getPosNave()
 		self.listaTiros.append(Tiro(posNave[0],posNave[1]))
-	
+		
+	def adicionarNomeNoRanking(self, Nome):
+		if (self.salvouNoRanking):
+			raise ExcecaoJogo("Voce ja adcionou seu nome ao ranking")
+		pontuacaoEnome = (Nome, self.getPontuacao())
+		self.adicionarNoRanking(pontuacaoEnome)
+		self.salvouNoRanking = True
+
+		
 	def adicionarNoRanking(self, pontuacaoENome):
 		if (self.jogoIniciado == False):
 			raise ExcecaoJogo("Jogo não iniciado")
@@ -73,10 +98,19 @@ class Gerenciador(object):
 		if (self.partidaIniciada == False):
 			raise ExcecaoJogo("Partida não iniciada")
 		self.partidaIniciada = False
-		self.listaTiros = []
-		self.listaNaves = []
-		self.ranking = []
-		self.nave = None
+		tamanhoRanking = len(self.ranking)
+		#retorna true se for para adicionar no ranking
+		if (tamanhoRanking == 0):
+			return True
+		elif (self.nave.pontuacao > self.ranking[tamanhoRaking-1]):
+			return True
+		return False
+
+		
+		#self.listaTiros = []
+		#self.listaNaves = []
+		#self.ranking = []
+		#self.nave = None
 		
 	def sairDoJogo(self):
 		if (self.jogoIniciado == False):
@@ -85,12 +119,17 @@ class Gerenciador(object):
 			raise ExcecaoJogo("Voce precisa terminar a partida antes de sair")
 		self.jogoIniciado = False
 
+	def passouDeNivel(self):
+		return self.passarDeNivel
+	
 	def ganharVida(self):
 		if (self.jogoIniciado == False):
 			raise ExcecaoJogo("Jogo não iniciado")
 		if (self.partidaIniciada == False):
 			raise ExcecaoJogo("Partida não iniciada")	
 		self.nave.ganharVida()
+		if (self.getPontuacao() >= self.nivel*self.PASSAR_DE_NIVEL ):
+			self.passarDeNivel = True
 	
 	def perderVida(self):
 		if (self.jogoIniciado == False):
@@ -122,19 +161,28 @@ class Gerenciador(object):
 		if (nave in self.listaNaves):
 			self.listaNaves.remove(nave)
 			self.nave.pontuar()
+		if (self.getPontuacao() >= self.nivel*700 ):
+			self.passarDeNivel = True
 			
-	def calcularPontuacao(self):
-		tamanhoRanking = len(self.ranking)
-		if (tamanhoRanking == 0):
-			return True
-		elif (self.nave.pontuacao > self.ranking[tamanhoRaking-1]):
-			return True
-		return False
+#	def calcularPontuacao(self):
+#		if (self.jogoIniciado == False):
+#			raise ExcecaoJogo("Jogo não iniciado")
+##		if (self.partidaIniciada == False):
+	#		raise ExcecaoJogo("Partida não iniciada")
+#
+#		tamanhoRanking = len(self.ranking)
+#		if (tamanhoRanking == 0):
+#			return True
+#		elif (self.nave.pontuacao > self.ranking[tamanhoRaking-1]):
+#			return True
+#		return False
 		
 	def getListaNaves(self):
 		return self.listaNaves
 		
 	def getPontuacao(self):
+		if (self.jogoIniciado == False):
+			raise ExcecaoJogo("Jogo não iniciado")
 		return self.nave.getPontuacao()
 	
 	def getListaTiros(self):
