@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from ExcecaoJogo import ExcecaoJogo
 from Nave import Nave
+from Persistencia import Persistencia
 from Tiro import Tiro
 from NaveInimigaComum import NaveInimigaComum
 import random
@@ -15,6 +16,7 @@ class Gerenciador(object):
 		self.passarDeNivel=False
 		self.nivel = 1
 		self.PASSAR_DE_NIVEL = 700
+		self.persistencia = Persistencia()
 		
 #		self.nave = None
 #		self.listaTiros = []
@@ -29,7 +31,7 @@ class Gerenciador(object):
 		self.nave = None
 		self.listaTiros = []
 		self.listaNaves = []
-		self.ranking = []
+		self.ranking = self.persistencia.lerArquivo()
 		self.salvouNoRanking = False
 		
 
@@ -91,6 +93,9 @@ class Gerenciador(object):
 			self.ranking.reverse()
 			if (len(self.ranking )> 10):
 				self.ranking.remove(self.ranking[10])
+			#salvar em arquivo
+			self.persistencia.gravarArquivo( self.ranking )
+		
 				
 	def sairDaPartida(self):
 		if (self.jogoIniciado == False):
@@ -102,7 +107,7 @@ class Gerenciador(object):
 		#retorna true se for para adicionar no ranking
 		if (tamanhoRanking == 0):
 			return True
-		elif (self.nave.pontuacao > self.ranking[tamanhoRaking-1]):
+		elif (self.nave.pontuacao > self.ranking[tamanhoRanking-1]):
 			return True
 		return False
 

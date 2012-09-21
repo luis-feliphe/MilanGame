@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+import os
 from Nave import  Nave
 from Facade import *
+
 
 class TestFacade(unittest.TestCase):
 
 	def setUp(self):
 		self.fac = Facade()
+		os.remove("Ranking.dat")
 	
 	#testes referentes a partidas e ao jogo
 	def testeIniciarJogo(self):
@@ -295,11 +298,8 @@ class TestFacade(unittest.TestCase):
 		self.fac.ganharVida()
 		self.fac.ganharVida()
 		self.assertEqual(True, self.fac.sairDaPartida())
-
-	
 		
 #========================| Testes para o 3o Estágio |========================#
-
 	
 	def testeCadastraNoRanking(self):
 		self.fac.iniciarJogo()
@@ -375,11 +375,12 @@ class TestFacade(unittest.TestCase):
 		self.fac.destruirNaveInimiga(listaDeNaves[0])
 		self.fac.destruirNaveInimiga(listaDeNaves[0])
 		self.fac.ganharVida()
+		
 		self.assertTrue(self.fac.passouDeNivel())
 		self.assertEqual(700, self.fac.getPontuacao())
 		self.assertEqual(0, len(self.fac.getListaNaves()))
 	
-	#testes relacionados a camada de persistencia
+	#testes relacionados a camada de persistencia  (TODO)
 	def testeGravarRankingEmArquivo(self):
 		self.fac.iniciarJogo()
 		self.fac.iniciarPartida()
@@ -391,8 +392,11 @@ class TestFacade(unittest.TestCase):
 		self.fac.ganharVida()
 		self.fac.ganharVida()
 		self.fac.ganharVida()
+		
 		self.assertTrue(self.fac.sairDaPartida())
+		
 		self.fac.adicionarNomeNoRanking("Hermanoteu")
+		
 		#self.fac = Facade()
 		self.assertEqual(1, len(self.fac.getRanking()))
 		self.assertEqual(self.fac.getRanking()[0][0],"Hermanoteu")
