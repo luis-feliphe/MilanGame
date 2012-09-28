@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Gerenciador import *
 
 class Facade(object):
@@ -46,14 +45,15 @@ class Facade(object):
 	def atacarInimigo(self):
 		self.gerenciador.atacarInimigo()
 	
-	#pegarPosição usuario
+
+	#pegarPosicao da nave
 	def getPosNave(self):
 		return self.gerenciador.getPosNave()
 	
 	def getTamanhoTela(self):
 		return self.gerenciador.getTamanhoTela()
 		
-	#se tiver Vidas volta ao jogo com uma vida a menos senão , tela game over
+	# se tiver vidas volta ao jogo
 	def serDestruido(self):
 		return
 			
@@ -65,10 +65,10 @@ class Facade(object):
 		return self.gerenciador.sairDaPartida()
 	
 	def ganharVida(self):
-		self.gerenciador.ganharVida()
+		return self.gerenciador.ganharVida()
 	
 	def perderVida(self):
-		self.gerenciador.perderVida()
+		return self.gerenciador.perderVida()
 	
 	# nave inimiga
 	def criarNaveInimiga(self):
@@ -92,7 +92,10 @@ class Facade(object):
 	def getVida(self):
 		return self.gerenciador.getVida()
 	
+	def getNivel(self):
+		return self.gerenciador.getNivel()
+	
 	def adicionarNomeNoRanking(self, nome):
 		return self.gerenciador.adicionarNomeNoRanking(nome)
-	def passouDeNivel(self):
-		return self.gerenciador.passouDeNivel()
+	def getNivel(self):
+		return self.gerenciador.getNivel()

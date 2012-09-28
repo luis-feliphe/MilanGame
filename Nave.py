@@ -10,6 +10,10 @@ class Nave(ObjetoPintavel):
 		self.tamTelaY = tamTelaY
 		self.vida = 3
 		self.pontuacao = 0
+
+		self.nivel = 1
+		self.PASSAR_DE_NIVEL = 700 #constante
+
 	
 	def moverNave (self, deslocamentoX, deslocamentoY):
 		if ((self.posX + deslocamentoX)> self.tamTelaX):
@@ -34,17 +38,26 @@ class Nave(ObjetoPintavel):
 			self.vida += 1
 		else:
 			self.pontuacao = self.pontuacao + 50
+		self.calcularNivel()
 	
 	def perderVida(self):
 		self.vida -= 1
 		if (self.vida == 0):
 			return True
 		return False
+
 	def pontuar(self):
 		self.pontuacao += 100
-	
+		self.calcularNivel()
+
 	def getPontuacao(self):
 		return self.pontuacao
 	
 	def getVida(self):
 		return self.vida
+	
+	def getNivel(self):
+		return self.nivel
+	
+	def calcularNivel (self):
+		self.nivel = (self.pontuacao / self.PASSAR_DE_NIVEL) + 1
