@@ -9,6 +9,12 @@ class Facade(object):
 	def verInstrucoes(self):
 		return "Use as setas para mover a nave e ctrl para atirar"
 
+	def moverTiros(self):
+		return self.gerenciador.moverTiros()
+
+	def moverNavesInimigas(self):
+		return self.gerenciador.moverNavesInimigas()
+
 	#retorna lista com ranking 
 	def getRanking(self):
 		return  self.gerenciador.getRanking()

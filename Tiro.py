@@ -1,4 +1,6 @@
 from ObjetoPintavel import ObjetoPintavel
 class Tiro(ObjetoPintavel):
-	pass
+	
+	def mover(self):
+		self.posY -= 3 
 	

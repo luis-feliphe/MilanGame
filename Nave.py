@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 from ObjetoPintavel import ObjetoPintavel
+import random 
 class Nave(ObjetoPintavel):
 # já pinta a nave no meio da tela na parte inferior da tela
 	def __init__(self,tamTelaX, tamTelaY):
 	# calculos para deixar nave no ponto inicial
-		self.posX = tamTelaX/2
-		self.posY =  tamTelaY - 30
+		self.tamNavex = 100 
+		self.tamNavey = 100
+		self.posX = tamTelaX/2 - (self.tamNavex/2)
+		self.posY =  tamTelaY - self.tamNavey 
 		self.tamTelaX = tamTelaX
 		self.tamTelaY = tamTelaY
 		self.vida = 3
@@ -14,16 +17,20 @@ class Nave(ObjetoPintavel):
 		self.nivel = 1
 		self.PASSAR_DE_NIVEL = 700 #constante
 
+	def moverAleatorio():
+		movimentoX = [1, 2, 3,  -1 , -2, -3]
+		movimentoY = [1, 2, -2]
+		self.moverNave(random.choice(movimentoX),random.choice( movimentoY))
 	
 	def moverNave (self, deslocamentoX, deslocamentoY):
-		if ((self.posX + deslocamentoX)> self.tamTelaX):
-			self.posX = self.tamTelaX
+		if ((self.posX + deslocamentoX+self.tamNavex)> self.tamTelaX):
+			self.posX = self.tamTelaX - self.tamNavex
 		elif((self.posX + deslocamentoX)< 0):
 			self.posX = 0
 		else:
 			self.posX = self.posX + deslocamentoX
-		if ((self.posY + deslocamentoY)> self.tamTelaY):
-			self.posY = self.tamTelaY
+		if ((self.posY + deslocamentoY+self.tamNavey)> self.tamTelaY):
+			self.posY = self.tamTelaY - self.tamNavey
 		elif ((self.posY + deslocamentoY)<0):		
 			self.posY = 0
 		else:

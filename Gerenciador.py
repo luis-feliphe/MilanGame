@@ -11,8 +11,8 @@ class Gerenciador(object):
 		self.jogoIniciado = False
 		self.partidaIniciada = False
 		self.salvouNoRanking = False
-		self.tamX = 500
-		self.tamY = 500
+		self.tamX =800 
+		self.tamY = 600 
 		self.persistencia = Persistencia()
 		self.ranking = self.persistencia.lerArquivo()
 		
@@ -26,8 +26,17 @@ class Gerenciador(object):
 		self.listaNaves = []
 #		self.ranking = self.persistencia.lerArquivo()
 		self.salvouNoRanking = False
-		
 
+	def moverNavesInimigas(self):
+		for naveInimiga in self.listaNaves:
+			naveInimiga.moverAleatorio()
+
+		
+	def moverTiros (self):
+		for tiro in self.listaTiros:
+			tiro.mover()
+			if tiro.posY < 0: #neste caso o tamnho da nave
+				self.listaTiros.remove(tiro)
 
 	def iniciarPartida(self):
 		if (self.partidaIniciada == True):
