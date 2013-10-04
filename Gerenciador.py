@@ -181,7 +181,7 @@ class Gerenciador(object):
 			raise ExcecaoJogo("Partida não iniciada")
 		escolhaPosX = random.choice
 		listaPosicoes = range(0, self.tamX)
-		naveInimiga = NaveInimigaComum(escolhaPosX(listaPosicoes), 0)
+		naveInimiga = NaveInimigaComum(escolhaPosX(listaPosicoes), 50 , self.tamX, self.tamY)
 		self.listaNaves.append(naveInimiga)
 		
 	def destruirNaveInimiga(self, nave):

@@ -6,7 +6,7 @@ from Facade import *
 
 def atualizarTela():
 	#repintar tela e nave
-	tela.fill ((100,24,40))
+	tela.fill ((0,0,0))
 	tela.blit(nave, facade.getPosNave())
 	#repintar tiros 
 	for tiro in facade.getListaTiros():
@@ -14,6 +14,7 @@ def atualizarTela():
 	#mover tiros 
 	facade.moverTiros()	
 	#repintar Naves Inimigas 
+	facade.moverNavesInimigas()
 	for naveinimiga in facade.getListaNaves():
 		tela.blit (imgNaveInimiga, naveinimiga.getPos())
 
@@ -35,7 +36,7 @@ tempo = pygame.time.Clock()
 pygame.init()
 tela = pygame.display.set_mode(facade.getTamanhoTela())
 pygame.display.set_caption("Milan the Hero of Space")
-tela.fill ((100,24,40))
+tela.fill ((0,0,0))
 
 #inciando nave
 nave = pygame.image.load("nave.png")
@@ -83,7 +84,7 @@ while (True):
 		if (navesInimigas < 3):
 			facade.criarNaveInimiga()
 			navesInimigas+= 1
-		facade.moverNavesInimigas()
+
 	if right: facade.moverNave(deslocamento, 0)#deslocamento x , deslocamento y
 	if up: facade.moverNave(0, -deslocamento) #deslocamento x , deslocamento y
 	if down:facade.moverNave(0, deslocamento) #deslocamento x , deslocamento y 

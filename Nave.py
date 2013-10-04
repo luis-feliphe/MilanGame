@@ -13,7 +13,6 @@ class Nave(ObjetoPintavel):
 		self.tamTelaY = tamTelaY
 		self.vida = 3
 		self.pontuacao = 0
-
 		self.nivel = 1
 		self.PASSAR_DE_NIVEL = 700 #constante
 
